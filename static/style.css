@@ -1,0 +1,253 @@
+/* ======================================
+   TEMA WARNA BIRU ELEGAN
+====================================== */
+:root {
+  --primary: #0A1A44;         /* Navy */
+  --primary-light: #E8EEFA;   /* Soft Blue */
+  --accent: #2A56A8;          /* Medium Blue */
+  --accent-dark: #12306F;     /* Dark Blue */
+  --bg: #F4F7FC;               /* Background soft */
+  --white: #FFFFFF;
+  --text: #0F172A;
+  --gray: #CBD5E1;
+}
+
+/* ======================================
+   GLOBAL STYLE
+====================================== */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ======================================
+   HEADER
+====================================== */
+header {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: var(--white);
+  padding: 24px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+/* ======================================
+   CONTAINER & BOX
+====================================== */
+.container {
+  width: 88%;
+  margin: 30px auto;
+}
+
+.box {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 28px;
+  border-left: 6px solid var(--accent);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  transition: 0.2s;
+}
+
+.box:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* ======================================
+   HEADINGS
+====================================== */
+h2 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+h3 {
+  margin-top: 6px;
+  color: var(--accent-dark);
+}
+
+/* ======================================
+   LABEL & TOOLTIP
+====================================== */
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+  color: var(--primary);
+}
+
+.tooltip {
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ======================================
+   INPUTS & SELECT
+====================================== */
+input, select {
+  width: 100%;
+  padding: 10px;
+  background: var(--primary-light);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* ======================================
+   GRID 2 COLUMN
+====================================== */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* ======================================
+   BUTTON
+====================================== */
+button {
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+/* ======================================
+   DOWNLOAD LINK
+====================================== */
+.link {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: bold;
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================
+   TABLE
+====================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background: var(--accent);
+  color: var(--white);
+  padding: 10px;
+  border: 1px solid var(--accent-dark);
+}
+
+td {
+  background: #F8FAFC;
+  padding: 10px;
+  border: 1px solid var(--gray);
+}
+
+/* ======================================
+   STATUS TEXT
+====================================== */
+#status {
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+/* ======================================
+   LIST OF COLUMNS
+====================================== */
+.col-list {
+  background: var(--primary-light);
+  padding: 14px;
+  border-radius: 8px;
+  list-style: none;
+}
+
+.col-list li {
+  margin-bottom: 5px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--gray);
+  font-size: 14px;
+}
+
+/* ======================================
+   PLOT LAYOUT
+====================================== */
+.plot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.plot-box {
+  background: var(--white);
+  height: 350px;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Tombol delete */
+form[action*="delete_dataset"] button {
+  background-color: #b30000; /* merah */
+}
+.flash-container {
+  margin-bottom: 15px;
+}
+
+.dataset-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.dataset-actions form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flash {
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.flash.success {
+  background-color: #d5f5d5;
+  color: #065700;
+}
+
+.flash.error {
+  background-color: #ffdede;
+  color: #7a0000;
+}

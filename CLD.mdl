@@ -1,0 +1,129 @@
+{UTF-8}
+Blood Pressure  = A FUNCTION OF( Stress)
+	~	
+	~		|
+
+Stress  = A FUNCTION OF( Blood Pressure,Sleep Quality,Stress Recovery)
+	~	
+	~		|
+
+Sleep Quality  = A FUNCTION OF( Blood Pressure,Physical Activity,Sleep Disorder,Sleep Hours\
+		,Stress)
+	~	
+	~		|
+
+Sleep Disorder  = A FUNCTION OF( BMI)
+	~	
+	~		|
+
+BMI  = A FUNCTION OF( )
+	~	
+	~		|
+
+Daily Steps  = A FUNCTION OF( )
+	~	
+	~		|
+
+Heart Rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+Physical Activity  = A FUNCTION OF( Daily Steps)
+	~	
+	~		|
+
+Sleep Hours  = A FUNCTION OF( )
+	~	
+	~		|
+
+Stress Recovery  = A FUNCTION OF( Heart Rate)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,133,2
+10,1,Sleep Hours,350,315,47,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,2,Physical Activity,360,202,59,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,3,Daily Steps,481,146,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,4,Sleep Disorder,633,313,56,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,5,BMI,786,391,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,6,Blood Pressure,855,84,57,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,Heart Rate,928,381,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,3,2,1,0,43,0,0,192,0,-1--1--1,,1|(395,135)|
+1,9,5,4,1,0,43,0,0,192,0,-1--1--1,,1|(714,374)|
+10,10,Stress Recovery,908,260,59,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,11,7,10,1,0,45,0,0,192,0,-1--1--1,,1|(946,352)|
+12,12,0,633,218,12,12,4,7,0,0,-1,0,0,0,0,0,0,0,0,0
+R
+10,13,Stress,762,215,46,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,14,Sleep Quality,514,233,51,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,15,14,13,1,0,45,0,0,192,0,-1--1--1,,1|(638,260)|
+1,16,13,14,1,0,45,0,0,192,0,-1--1--1,,1|(633,173)|
+1,17,4,14,1,0,45,0,0,192,0,-1--1--1,,1|(573,318)|
+1,18,1,14,1,0,43,0,0,192,0,-1--1--1,,1|(428,308)|
+1,19,2,14,1,0,43,0,0,192,0,-1--1--1,,1|(409,255)|
+1,20,13,6,1,0,43,0,0,192,0,-1--1--1,,1|(859,142)|
+1,21,6,13,1,0,43,0,0,192,0,-1--1--1,,1|(772,133)|
+1,22,10,13,1,0,45,0,0,192,0,-1--1--1,,1|(823,285)|
+1,23,6,14,1,0,43,0,0,192,0,-1--1--1,,1|(614,72)|
+///---\\\
+:L<%^E!@
+5:Sleep Quality
+9:current
+19:133,0
+24:0
+25:0
+26:0
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1

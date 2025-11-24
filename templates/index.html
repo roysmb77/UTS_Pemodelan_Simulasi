@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simulasi Sistem Dinamika Tidur</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{category}}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<header>
+  Simulasi Sistem Dinamika Kualitas Tidur
+</header>
+
+<div class="container">
+
+  <!-- ==========================
+       DATASET
+  ============================ -->
+  
+  <div class="box">
+  <h2>Dataset</h2>
+
+  <div class="dataset-actions">
+
+    <!-- Upload Form -->
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".csv" required>
+      <button type="submit">Upload Dataset</button>
+    </form>
+
+    <!-- Delete button only if dataset exists -->
+    {% if dataset_exists %}
+    <form action="{{ url_for('delete_dataset') }}" method="post">
+      <button type="submit" class="btn-delete"
+              onclick="return confirm('Yakin ingin menghapus dataset?')">
+        Hapus Dataset
+      </button>
+    </form>
+    {% endif %}
+
+  </div>
+
+  {% if dataset_exists %}
+    <p>Dataset ditemukan dengan <strong>{{ nrows }}</strong> baris.</p>
+  {% else %}
+    <p><strong>Belum ada dataset.</strong> Silakan upload CSV.</p>
+  {% endif %}
+
+</div>
+
+
+
+    
+  </section>
+
+  <!-- ==========================
+       FORM SIMULASI
+  ============================ -->
+  <section class="box">
+    <h2>Pengaturan Simulasi</h2>
+
+    <form id="simForm" class="grid2">
+
+      <div>
+        <label>Skenario</label>
+        <span class="tooltip">
+          Baseline = normal<br>
+          Langkah Ekstra = meningkatkan aktivitas fisik<br>
+          Intervensi Stres = menurunkan stres awal
+        </span>
+
+        <select name="scenario" id="scenario">
+          <option value="baseline">Baseline</option>
+          <option value="more_steps">+ Langkah Ekstra</option>
+          <option value="stress_intervention">Intervensi Stres</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Jumlah Hari Simulasi</label>
+        <input type="number" name="days" value="30" min="1" max="365">
+      </div>
+
+      <div>
+        <label>Tambahan Langkah / Hari</label>
+        <input type="number" name="extra_steps" value="3000">
+      </div>
+
+      <div>
+        <label>Pengurangan Stres</label>
+        <input type="number" name="stress_reduction" value="2" step="0.1">
+      </div>
+
+      <div>
+        <label>ID Individu (Opsional)</label>
+        <span class="tooltip">Kosongkan untuk simulasi seluruh dataset.</span>
+        <input type="text" name="person_id" placeholder="Misal: 12">
+      </div>
+
+    </form>
+
+    <button onclick="runSim()">Jalankan Simulasi</button>
+    <p id="status"></p>
+
+    <a href="/download_summary" class="link">Unduh Ringkasan (CSV)</a>
+  </section>
+
+  <!-- ==========================
+       HASIL SIMULASI
+  ============================ -->
+  <section id="results" class="box" style="display:none;">
+    <h2>Hasil Simulasi</h2>
+
+    <div id="plots" class="plot-grid"></div>
+
+    <h3>Ringkasan Simulasi</h3>
+    <table id="summaryTable"></table>
+  </section>
+
+</div>
+
+<!-- Plotly CDN -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+async function runSim() {
+  document.getElementById("status").innerText = "Simulasi sedang berjalan...";
+  const form = document.getElementById("simForm");
+  const data = new FormData(form);
+
+  const resp = await fetch("/run_simulation", {
+    method: "POST",
+    body: data
+  });
+
+  if (!resp.ok) {
+    document.getElementById("status").innerText = "Error: " + await resp.text();
+    return;
+  }
+
+  const json = await resp.json();
+  document.getElementById("status").innerText = "Simulasi selesai!";
+  showResults(json);
+}
+
+function showResults(json) {
+  document.getElementById("results").style.display = "block";
+
+  const results = json.results;
+  const summary = json.summary;
+
+  const table = document.getElementById("summaryTable");
+  table.innerHTML = "";
+
+  const headerMap = {
+    "Person ID": "ID Orang",
+    "Initial_SleepQuality": "Kualitas Tidur Awal",
+    "Final_SleepQuality": "Kualitas Tidur Akhir",
+    "Initial_Stress": "Stres Awal",
+    "Final_Stress": "Stres Akhir",
+    "Scenario": "Skenario"
+  };
+
+  if (summary.length > 0) {
+    const columns = Object.keys(summary[0]);
+    const tr = document.createElement("tr");
+
+    columns.forEach(h => {
+      const th = document.createElement("th");
+      th.innerText = headerMap[h] || h;
+      tr.appendChild(th);
+    });
+    table.appendChild(tr);
+
+    summary.forEach(row => {
+      const tr = document.createElement("tr");
+      columns.forEach(h => {
+        const td = document.createElement("td");
+        td.innerText = row[h];
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  }
+
+  const plots = document.getElementById("plots");
+  plots.innerHTML = "";
+
+  Object.keys(results).slice(0, 15).forEach(pid => {
+    const hist = results[pid];
+    const div = document.createElement("div");
+    div.className = "plot-box";
+    plots.appendChild(div);
+
+    Plotly.newPlot(div, [
+      { x: hist.day, y: hist.SleepQuality, mode: "lines", name: "Kualitas Tidur" },
+      { x: hist.day, y: hist.Stress, mode: "lines", name: "Stres" },
+      { x: hist.day, y: hist.BMI_index, mode: "lines", name: "BMI" },
+      { x: hist.day, y: hist.Systolic, mode: "lines", name: "Tekanan Darah (Systolic)" },
+      { x: hist.day, y: hist.HeartRate, mode: "lines", name: "Detak Jantung" }
+    ], {
+      title: "ID Orang " + pid,
+      margin: { t: 40 }
+    });
+  });
+}
+</script>
+
+</body>
+</html>
